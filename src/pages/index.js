@@ -11,7 +11,33 @@ import AddIcon from '@material-ui/icons/Add';
 
 import SiteMetadata from '../components/SiteMetadata';
 import Header from '../components/Header';
-// design idea: location name then plane icon if flew, hotel if stayed at, etc. average cost on the right
+import Trip from '../components/Trip';
+
+const stubLocations = [
+  {
+    destinationCity: 'Bethlehem',
+    startCity: 'Houston',
+    didFly: true,
+    didStayAtHotel: true,
+    id: '1',
+    userId: '1',
+  },
+  {
+    destinationCity: 'Phoenix',
+    startCity: 'Houston',
+    didFly: true,
+    didStayAtHotel: false,
+    id: '2',
+    userId: '1',
+  },
+  {
+    destinationCity: 'Temple',
+    didFly: false,
+    didStayAtHotel: true,
+    id: '3',
+    userId: '1',
+  },
+];
 
 const TripsContainer = styled(Paper)`
   margin-top: 20px; 
@@ -27,15 +53,13 @@ const AddTripButton = styled(Button)`
   flexDirection: row; 
 `;
 
-const Trip = ({ trip }) => <li>{trip.location}</li>;
-
 export default () => {
-  const [trips, setTrips] = useState([]);
+  const [trips, setTrips] = useState(stubLocations);
 
   const addTrip = useCallback(location => setTrips(trips.concat({ location })), [trips]);
   const triggerAddTripFlow = useCallback(() => console.log('add trip'), []);
   const renderTrips = useCallback(() => trips.map(trip => (
-    <Trip key={trip.location} trip={trip} />
+    <Trip key={trip.id} {...trip} />
   )), [trips]);
 
   return (
