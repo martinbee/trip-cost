@@ -66,7 +66,7 @@ export default () => {
     <>
       <SiteMetadata pageTitle={'Your Trips'} />
       <Header />
-      <Container maxWidth="md">
+      <Container maxWidth="sm">
         <Grid
           container
           direction="column"
