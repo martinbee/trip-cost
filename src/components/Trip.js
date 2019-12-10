@@ -62,5 +62,3 @@ const Trip = ({
 };
 
 export default Trip;
-
-// design idea: location name then plane icon if flew, hotel if stc. averageer

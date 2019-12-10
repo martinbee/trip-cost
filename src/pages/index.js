@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import SiteMetadata from '../components/SiteMetadata';
 import Header from '../components/Header';
 import Trip from '../components/Trip';
+import AddTripWizard from "../components/AddTripWizard";
 
 const stubLocations = [
   {
@@ -55,8 +56,11 @@ const AddTripButton = styled(Button)`
 
 export default () => {
   const [trips, setTrips] = useState(stubLocations);
+  const [isAddTripWizardOpen, setIsAddTripWizardOpen] = useState(false);
 
   const addTrip = useCallback(location => setTrips(trips.concat({ location })), [trips]);
+  const closeAddTripWizard = useCallback(() => setIsAddTripWizardOpen(false), []);
+  const openAddTripWizard = useCallback(() => setIsAddTripWizardOpen(true), []);
   const triggerAddTripFlow = useCallback(() => console.log('add trip'), []);
   const renderTrips = useCallback(() => trips.map(trip => (
     <Trip key={trip.id} {...trip} />
@@ -74,13 +78,14 @@ export default () => {
           style={{ height: '90vh' }}
         >
           <TripsContainer>
-            <AddTripButton variant="contained">
+            <AddTripButton variant="contained" onClick={openAddTripWizard}>
               <AddIcon />
               <Typography>Add a Trip</Typography>
             </AddTripButton>
             {renderTrips()}
           </TripsContainer>
         </Grid>
+        <AddTripWizard isOpen={isAddTripWizardOpen} handleClose={closeAddTripWizard} />
       </Container>
     </>
   );
