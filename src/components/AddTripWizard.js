@@ -1,63 +1,54 @@
-// config object
-// {
-//   tabIcon,
-//   componentToRender,
-//   title,
-// }
-// map over, apply id, pass in func to move between this screen and previous
-
-      // <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-      // <DialogContent>
-      //   <DialogContentText>
-      //     To subscribe to this website, please enter your email address here. We will send updates
-      //     occasionally.
-      //   </DialogContentText>
-      //   <TextField
-      //      autoFocus
-      //      margin="dense"
-      //      id="name"
-      //      label="Email Address"
-      //      type="email"
-      //      fullWidth
-      //    />
-      //   </DialogContent>
 import React, { useState, useCallback } from 'react';
 import {
   Dialog,
   Button,
   DialogActions,
-  DialogContent,
   IconButton,
 } from '@material-ui/core';
 import LeftIcon from '@material-ui/icons/ArrowLeft';
 import RightIcon from '@material-ui/icons/ArrowRight';
+import WizardDestination from './WizardDestination';
+import WizardDidFly from './WizardDidFly';
+import WizardDidStayAtHotel from './WizardDidStayAtHotel';
 
+const wizardStepComponents = [
+  WizardDestination,
+  WizardDidFly,
+  WizardDidStayAtHotel,
+];
+
+// determine how to set values and if values should be read from context
+// step components should be able to inc
+// get rid of steps and handle using enter or button click
 const AddTripWizard = ({ isOpen, handleClose }) => {
   const [currentStep, setStep] = useState(0);
   const decrementStep = useCallback(() => setStep(currentStep - 1), [currentStep]);
   const incrementStep = useCallback(() => setStep(currentStep + 1), [currentStep]);
 
+  const StepComponent = wizardStepComponents[currentStep];
+  const isPastFirstStep = currentStep > 0;
+  const isLastStep = currentStep === wizardStepComponents.length - 1;
+
   return (
-    <Dialog style={{ width: '100%' }} open={isOpen} onClose={handleClose} aria-labelledby="Add Trip Wizard">
+    <Dialog fullWidth open={isOpen} onClose={handleClose} aria-labelledby="Add Trip Wizard">
+      <StepComponent incrementStep={incrementStep} decrementStep={decrementStep} />
       <DialogActions>
+        <div>
+          {isPastFirstStep && (
+            <IconButton onClick={decrementStep}>
+              <LeftIcon />
+            </IconButton>
+          )}
+          {isLastStep ? <div>Finish</div> : (
+            <IconButton onClick={incrementStep}>
+              <RightIcon />
+            </IconButton>
+          )}
+        </div>
         <Button onClick={handleClose} color="primary">
           Cancel
         </Button>
       </DialogActions>
-      <DialogContent>
-        {currentStep}
-      </DialogContent>
-      <div>
-        {currentStep}
-        {currentStep > 0 && (
-          <IconButton onClick={decrementStep}>
-            <LeftIcon />
-          </IconButton>
-        )}
-        <IconButton onClick={incrementStep}>
-          <RightIcon />
-        </IconButton>
-      </div>
     </Dialog>
   );
 }
