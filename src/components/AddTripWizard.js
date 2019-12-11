@@ -38,7 +38,7 @@ const AddTripWizard = ({ isOpen, handleClose }) => {
   const incrementStep = useCallback(() => setStep(currentStep + 1), [currentStep]);
 
   return (
-    <Dialog open={isOpen} onClose={handleClose} aria-labelledby="Add Trip Wizard">
+    <Dialog style={{ width: '100%' }} open={isOpen} onClose={handleClose} aria-labelledby="Add Trip Wizard">
       <DialogActions>
         <Button onClick={handleClose} color="primary">
           Cancel
